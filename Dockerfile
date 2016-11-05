@@ -33,6 +33,13 @@ RUN sed -i \
 	/etc/ssh/sshd_config
 
 # ------------------------------------------------
+# Setting sudo
+# ------------------------------------------------
+RUN sed -i \
+        -E 's|^# %wheel\tALL=\(ALL\)\tALL|%wheel\tALL=(ALL)\tALL|' \
+        /etc/sudoers
+
+# ------------------------------------------------
 # Setting container
 # ------------------------------------------------
 ADD run.sh /run.sh
