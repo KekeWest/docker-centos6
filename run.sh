@@ -22,13 +22,17 @@ adduser() {
   echo -e "${password}\n${password}" | passwd "${name}"
 }
 
-while getopts "hu:" opt; do
-  case "$opt" in
-    h) usage ;;
-    u) adduser "$OPTARG" ;;
-  esac
-done
-shift $(( OPTIND - 1 ))
+created_file="/docker_container_created"
+
+if [ ! -f ${created_file} ]; then
+  while getopts "hu:" opt; do
+    case "$opt" in
+      h) usage ;;
+      u) adduser "$OPTARG" ;;
+    esac
+  done
+  shift $(( OPTIND - 1 ))
+  touch ${created_file}
+fi
 
 exec /usr/sbin/sshd -D
-
